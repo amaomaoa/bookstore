@@ -4,7 +4,13 @@ import type { Car } from "@/api/car";
 import { ref } from "vue";
 import { imgPath } from "@/api";
 import { ElMessage } from "element-plus";
-import { getAddress, type Address } from "@/api/address";
+import type { FormInstance, FormRules } from "element-plus";
+import {
+    getAddress,
+    type Address,
+    addAddress,
+    deleteAddress,
+} from "@/api/address";
 import { createOrder } from "@/api/order";
 import router from "@/router";
 
@@ -13,6 +19,17 @@ const total = ref(0);
 const changeAddressBox = ref(false);
 const addressMsg = ref<Address[]>(<Address[]>{});
 const changeAddress = ref<number | null>(null);
+const addAddressbutton = ref(true);
+const addAddressData = ref(<Address>{});
+const ruleFormRef = ref<FormInstance>(<FormInstance>{});
+const AddressRules = ref<FormRules>({
+    consignee: [{ required: true, message: "收货人不能为空", trigger: "blur" }],
+    phone: [{ required: true, message: "电话号码不能为空", trigger: "blur" }],
+    province: [{ required: true, message: "省不能为空", trigger: "blur" }],
+    city: [{ required: true, message: "市不能为空", trigger: "blur" }],
+    area: [{ required: true, message: "区不能为空", trigger: "blur" }],
+    other: [{ required: true, message: "详细不能为空", trigger: "blur" }],
+});
 
 function ischange() {
     return cars.value.filter((e) => e.choose).length > 0;
@@ -97,7 +114,50 @@ function createOrdering() {
     }
 }
 
+function addAddressing() {
+    ruleFormRef.value.validate((valid) => {
+        if (valid) {
+            addAddress(addAddressData.value)
+                .then((res) => {
+                    if (res.data.code == 200) {
+                        ElMessage.success("添加成功");
+                    } else {
+                        ElMessage.error(res.data.msg);
+                    }
+                })
+                .finally(() => {
+                    getAddressing();
+                    addAddressbutton.value = true;
+                });
+        }
+    });
+}
+
+function canceladd() {
+    ruleFormRef.value.resetFields();
+    addAddressData.value = <Address>{};
+    addAddressbutton.value = true;
+}
+
+function deleteAddressing(id: number) {
+    deleteAddress(id)
+        .then((res) => {
+            if (res.data.code == 200) {
+                ElMessage.success("删除成功");
+            } else {
+                ElMessage.error(res.data.msg);
+            }
+        })
+        .catch(() => {
+            ElMessage.error("不允许删除该地址");
+        })
+        .finally(() => {
+            getAddressing();
+        });
+}
+
 function init() {
+    document.title = "我的购物车";
     getCaring();
 }
 init();
@@ -155,7 +215,12 @@ init();
                 </div>
             </el-card>
         </div>
-        <el-dialog v-model="changeAddressBox" title="请选择地址" width="30%">
+        <el-dialog
+            v-model="changeAddressBox"
+            title="请选择地址"
+            width="800px"
+            style="position: relative"
+        >
             <el-radio-group v-model="changeAddress">
                 <el-radio v-for="(item, index) in addressMsg" :label="item.id">
                     收件人: <span>{{ item.consignee }}</span> 联系电话:
@@ -164,8 +229,82 @@ init();
                     <span>{{ item.city }}</span>
                     <span>{{ item.area }}</span>
                     <span>{{ item.other }}</span>
+                    <el-button style="margin-left: 5px;"
+                        @click="deleteAddressing(item.id)"
+                        size="small"
+                        type="warning"
+                        >删除</el-button
+                    >
                 </el-radio>
             </el-radio-group>
+            <div>
+                <el-button
+                    v-if="addAddressbutton"
+                    style="addButton"
+                    type="primary"
+                    @click="addAddressbutton = false"
+                    >添加地址</el-button
+                >
+                <div v-else>
+                    <el-form
+                        :inline="true"
+                        :model="addAddressData"
+                        :rules="AddressRules"
+                        ref="ruleFormRef"
+                    >
+                        <el-row :gutter="0">
+                            <el-col :span="5">
+                                <el-form-item label="收货人" prop="consignee">
+                                    <el-input
+                                        v-model="addAddressData.consignee"
+                                    />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="7">
+                                <el-form-item label="联系电话" prop="phone">
+                                    <el-input v-model="addAddressData.phone" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="5">
+                                <el-form-item label="省" prop="province">
+                                    <el-input
+                                        v-model="addAddressData.province"
+                                    />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="5">
+                                <el-form-item label="市" prop="city">
+                                    <el-input v-model="addAddressData.city" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="5">
+                                <el-form-item label="区" prop="area">
+                                    <el-input v-model="addAddressData.area" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="8">
+                                <el-form-item label="详细地址" prop="other">
+                                    <el-input v-model="addAddressData.other" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="8">
+                                <el-form-item>
+                                    <el-button
+                                        type="primary"
+                                        @click="addAddressing"
+                                        >添加</el-button
+                                    >
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button @click="canceladd"
+                                        >取消</el-button
+                                    >
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
+            </div>
             <template #footer>
                 <span class="dialog-footer">
                     <el-button type="primary" @click="createOrdering"

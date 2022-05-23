@@ -7,24 +7,24 @@ export interface Address {
     consignee: string;
     userId: number;
     phone: number;
-    province: number;
-    city: number;
-    area: number;
-    other: number;
+    province: string;
+    city: string;
+    area: string;
+    other: string;
 }
 
 export const getAddress = () => {
     return get(prefix + "get");
 };
 
-export const addAddress = () => {
-    return put(prefix + "add");
+export const addAddress = (address: Address) => {
+    return put(prefix + "add", address);
 };
 
-export const updateAddress = () => {
-    return post(prefix + "update");
+export const updateAddress = (address: Address) => {
+    return post(prefix + "update", address);
 };
 
-export const deleteAddress = () => {
-    return deletes(prefix + "update");
+export const deleteAddress = (id: number) => {
+    return deletes(prefix + "delete/" + id);
 };

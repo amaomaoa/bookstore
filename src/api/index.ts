@@ -38,9 +38,9 @@ axios.interceptors.request.use(
     }
 );
 
-export const swiperPath = "http://127.0.0.1:8001/swiper/get/";
-export const imgPath = "http://127.0.0.1:8001/book/get/";
-export const userPath = "http://127.0.0.1:8001/user/get/"
+export const swiperPath = "http://8.134.131.27:8001/swiper/get/";
+export const imgPath = "http://8.134.131.27:8001/book/get/";
+export const userPath = "http://8.134.131.27:8001/user/get/"
 
 export const get = async (path: string, params?: any) => {
     if (params) {

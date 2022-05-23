@@ -45,6 +45,7 @@ function cancel(id: number) {
 }
 
 function init() {
+    document.title = "我的订单"
     getOrder();
 }
 
