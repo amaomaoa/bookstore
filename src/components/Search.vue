@@ -6,6 +6,8 @@ import { storeToRefs } from "pinia";
 import { checkLogin, logout } from "@/api/user";
 import { userPath } from "@/api";
 import { useRoute } from "vue-router";
+import router from "@/router";
+import { ElNotification } from "element-plus";
 const route = useRoute();
 const searchStr = ref<string>("");
 const select = ref<string>("Book");
@@ -21,6 +23,13 @@ function setusermsg() {
 function logouting() {
     logout().finally(() => {
         setusermsg();
+        router.push({ name: "home", params: { refresh: 1 } });
+
+        ElNotification({
+            title: "再见",
+            message: "欢迎再来",
+            type: "success",
+        });
     });
 }
 

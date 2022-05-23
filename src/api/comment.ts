@@ -16,7 +16,7 @@ export const getCommentByBookId = (id: number) => {
 };
 
 export const addComment = (comment: Comment) => {
-    return put(prefix + "add" + comment);
+    return put(prefix + "add", comment);
 };
 
 export const deleteComment = (id: number) => {
