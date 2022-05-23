@@ -1,19 +1,33 @@
 <script setup lang="ts">
 import { getBookById } from "@/api/books";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import type { Book } from "@/api/books";
 import { imgPath } from "@/api";
 import { addtocar, type Car } from "@/api/car";
 import { ElMessage } from "element-plus";
 import router from "@/router";
-
+import {
+    getCommentByBookId,
+    addComment,
+    deleteComment,
+    type Comment,
+} from "@/api/comment";
 
 const route = useRoute();
 const bookid = ref<number>(Number(route.params.id as string));
 const book = ref<Book>(<Book>{});
+const comments = ref<Comment[]>(<Comment[]>[]);
 const evaluation = ref<string>(""); //评论
 const userRate = ref(null);
+
+const score = computed(() => {
+    let res = 0;
+    comments.value.forEach((e) => {
+        res += e.score;
+    });
+    return res;
+});
 
 function getBookMsg() {
     getBookById(bookid.value).then((res) => {
@@ -22,12 +36,18 @@ function getBookMsg() {
     });
 }
 
+function getComent() {
+    getCommentByBookId(bookid.value).then((res) => {
+        comments.value = res.data.data;
+    });
+}
+
 function addToCaring() {
     addtocar(<Car>{ bookId: bookid.value }).then((res) => {
         if (res.data.code == 200) {
             ElMessage.success("加入购物车成功");
-        } else if(res.data.code == 401) {
-            router.push("/login")
+        } else if (res.data.code == 401) {
+            router.push("/login");
             ElMessage.error(res.data.msg);
         }
     });
@@ -35,6 +55,7 @@ function addToCaring() {
 
 function init() {
     getBookMsg();
+    getComent();
 }
 init();
 </script>
