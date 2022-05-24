@@ -34,13 +34,13 @@ function logouting() {
 }
 
 function searching() {
-    console.log(select.value);
     if (searchStr.value) {
         if (select.value == "Book") {
             open("/searhbook/" + searchStr.value);
         } else {
             open("/tag/" + searchStr.value);
         }
+        searchStr.value = ""
     }
 }
 
@@ -90,7 +90,7 @@ init();
                     </el-select>
                 </template>
                 <template #append>
-                    <el-button :icon="Search" />
+                    <el-button @click="searching" :icon="Search" />
                 </template>
             </el-input>
         </div>
