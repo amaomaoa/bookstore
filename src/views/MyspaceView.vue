@@ -61,6 +61,7 @@ function getUserMsging() {
 
 function init() {
     getUserMsging();
+    document.title = "myhome"
 }
 init();
 </script>
