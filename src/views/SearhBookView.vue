@@ -31,8 +31,8 @@ init();
 
 <template>
     <div class="main">
-        <div v-if="books.length == 0"><p style="text-align: center;">无结果</p></div>
-        <ul v-else>
+        <ul>
+            <p style="text-align: center">查询出{{ books.length }}个结果</p>
             <li v-for="(item, index) in books">
                 <routerLink :to="bookPath + item.id">
                     <el-tooltip placement="top-start">
@@ -58,6 +58,7 @@ init();
 .main {
     width: 1500px;
     margin: auto;
+    margin-top: 30px;
 }
 
 li {
@@ -69,6 +70,5 @@ li {
 
 .el-image {
     margin: 90px 20px 20px 90px;
-    
 }
 </style>

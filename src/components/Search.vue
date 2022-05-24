@@ -33,15 +33,20 @@ function logouting() {
     });
 }
 
-function searching(){
-    console.log(searchStr.value);
-    
+function searching() {
+    console.log(select.value);
+    if (searchStr.value) {
+        if (select.value == "Book") {
+            open("/searhbook/" + searchStr.value);
+        } else {
+            open("/tag/" + searchStr.value);
+        }
+    }
 }
 
 function init() {
     setusermsg();
 }
-
 
 watch(route, (newRoute) => {
     if (newRoute.params.refresh) {
@@ -71,6 +76,7 @@ init();
                 v-model="searchStr"
                 placeholder="Please input"
                 size="large"
+                @keyup.enter="searching"
             >
                 <template #prepend>
                     <el-select
@@ -78,11 +84,9 @@ init();
                         placeholder="Select"
                         style="width: 90px; background-color: #dddddd"
                         size="large"
-                        :select-when-unmatched="true"
-                        @select="searching"
                     >
-                        <el-option label="Book" value="1" />
-                        <el-option label="Tag" value="2" />
+                        <el-option label="Book" value="Book" />
+                        <el-option label="Tag" value="Tag" />
                     </el-select>
                 </template>
                 <template #append>
