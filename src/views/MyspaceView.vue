@@ -18,10 +18,7 @@ function avatarUpload(response: any) {
         id: usermsg.value?.id,
         avatar: avatar,
     }).finally(async () => {
-        getUserMsg().then((res) => {
-            usermsg.value = res;
-            userForm.value = res;
-        });
+        getUserMsging();
     });
 }
 function avatarUploadErr() {
@@ -43,23 +40,29 @@ function updateUsering() {
             ElMessage.error("用户名被占用");
         })
         .finally(() => {
-            getUserMsg().then((res) => {
-                usermsg.value = res;
-                userForm.value = res;
-            });
+            getUserMsging();
         });
     changeName.value = false;
     changeMail.value = false;
 }
 
 function cancelUpdate() {
+    getUserMsging();
+    changeName.value = false;
+    changeMail.value = false;
+}
+
+function getUserMsging() {
     getUserMsg().then((res) => {
         usermsg.value = res;
         userForm.value = res;
     });
-    changeName.value = false;
-    changeMail.value = false;
 }
+
+function init() {
+    getUserMsging();
+}
+init();
 </script>
 
 <template>
