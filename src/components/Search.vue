@@ -40,7 +40,7 @@ function searching() {
         } else {
             open("/tag/" + searchStr.value);
         }
-        searchStr.value = ""
+        searchStr.value = "";
     }
 }
 
@@ -58,18 +58,20 @@ init();
 </script>
 <template>
     <div class="main">
-        <div class="logo">
-            <span>B</span>
-            <span>O</span>
-            <span>O</span>
-            <span>K</span>
-            <span style="color: #c0a02e">&</span>
-            <span>S</span>
-            <span>T</span>
-            <span>O</span>
-            <span>R</span>
-            <span>E</span>
-        </div>
+        <routerLink :to="'/'">
+            <div class="logo">
+                <span>B</span>
+                <span>O</span>
+                <span>O</span>
+                <span>K</span>
+                <span style="color: #c0a02e">&</span>
+                <span>S</span>
+                <span>T</span>
+                <span>O</span>
+                <span>R</span>
+                <span>E</span>
+            </div>
+        </routerLink>
         <div class="Search">
             <el-input
                 class="w-30 m-2"
