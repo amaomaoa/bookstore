@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { get } from "@/api";
-import { getBookById } from "@/api/books";
 import { getAllOrder, payOrder, cancelById, type Order } from "@/api/order";
-import { computedAsync } from "@vueuse/core";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { imgPath } from "@/api";
 
 import { ElMessage } from "element-plus";
-import router from "@/router";
 
 const allOrder = ref<Order[]>(<Order[]>[]);
 

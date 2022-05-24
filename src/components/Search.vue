@@ -142,7 +142,7 @@ init();
 }
 
 .user {
-    margin-left: 100px;
+    margin-left: 50px;
     display: inline;
     position: relative;
 }

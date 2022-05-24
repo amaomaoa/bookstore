@@ -1,14 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import TagView from "@/views/TagView.vue";
-import BookView from "@/views/BookView.vue";
-import LoginView from "@/views/LoginView.vue";
-import RegisterView from "@/views/RegisterView.vue";
-import CarView from "@/views/CarView.vue";
-import MyorderView from "@/views/Myorder.vue";
-import MyspaceViewVue from "@/views/MyspaceView.vue";
-import OrderView from "@/views/OrderView.vue";
-import SearhBookView from "@/views/SearhBookView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,52 +6,52 @@ const router = createRouter({
         {
             path: "/",
             name: "home",
-            component: HomeView,
+            component:()=>import("@/views/HomeView.vue"),
         },
         {
             path: "/tag/:tag",
             name: "tag",
-            component: TagView,
+            component:()=>import("@/views/TagView.vue"),
         },
         {
             path: "/book/:id",
             name: "book",
-            component: BookView,
+            component:()=>import("@/views/BookView.vue"),
         },
         {
             path: "/login",
             name: "login",
-            component: LoginView,
+            component:()=>import("@/views/LoginView.vue"),
         },
         {
             path: "/car",
             name: "car",
-            component: CarView,
+            component:()=>import("@/views/CarView.vue"),
         },
         {
             path: "/myorder",
             name: "myorder",
-            component: MyorderView,
+            component:()=>import("@/views/MyorderView.vue"),
         },
         {
             path: "/myhome",
             name: "myhome",
-            component: MyspaceViewVue,
+            component:()=>import("@/views/MyspaceView.vue"),
         },
         {
             path: "/register",
             name: "register",
-            component: RegisterView,
+            component:()=>import("@/views/RegisterView.vue"),
         },
         {
             path: "/order/:id",
             name: "order",
-            component: OrderView,
+            component:()=>import("@/views/OrderView.vue"),
         },
         {
             path: "/searhbook/:search",
             name: "searhbook",
-            component: SearhBookView,
+            component:()=>import("@/views/SearhBookView.vue"),
         },
     ],
 });
