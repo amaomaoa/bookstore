@@ -8,6 +8,7 @@ import CarView from "@/views/CarView.vue";
 import MyorderView from "@/views/Myorder.vue";
 import MyspaceViewVue from "@/views/MyspaceView.vue";
 import OrderView from "@/views/OrderView.vue";
+import SearhBookView from "@/views/SearhBookView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
             path: "/order/:id",
             name: "order",
             component: OrderView,
+        },
+        {
+            path: "/searhbook/:search",
+            name: "searhbook",
+            component: SearhBookView,
         },
     ],
 });

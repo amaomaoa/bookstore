@@ -1,37 +1,37 @@
 <script setup lang="ts">
 import type { Book } from "@/api/books";
-import { getbyTag } from "@/api/books";
+import { searchBook } from "@/api/books";
 import { useRoute } from "vue-router";
 import { computedAsync } from "@vueuse/core";
 import { ref, watch } from "vue";
 import { imgPath } from "@/api/index";
 
 const route = useRoute();
-const tag = ref(route.params.tag as string);
+const searchStr = ref(route.params.search as string);
 const bookPath = "/book/";
 
 const books = computedAsync(async () => {
-    const res = await getbyTag(tag.value);
+    const res = await searchBook(searchStr.value);
     return res.data.data as Array<Book>;
 }, []);
 
 watch(
     () => route.params.tag,
     (newtag) => {
-        tag.value = newtag as string;
-        document.title = tag.value;
+        searchStr.value = newtag as string;
+        document.title = searchStr.value;
     }
 );
 
 function init() {
-    document.title = tag.value;
+    document.title = searchStr.value;
 }
 init();
 </script>
 
 <template>
     <div class="main">
-        <div v-if="books.length == 0"><p style="text-align: center;">结果走丢了</p></div>
+        <div v-if="books.length == 0"><p style="text-align: center;">无结果</p></div>
         <ul v-else>
             <li v-for="(item, index) in books">
                 <routerLink :to="bookPath + item.id">
@@ -69,5 +69,6 @@ li {
 
 .el-image {
     margin: 90px 20px 20px 90px;
+    
 }
 </style>

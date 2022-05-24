@@ -33,9 +33,15 @@ function logouting() {
     });
 }
 
+function searching(){
+    console.log(searchStr.value);
+    
+}
+
 function init() {
     setusermsg();
 }
+
 
 watch(route, (newRoute) => {
     if (newRoute.params.refresh) {
@@ -72,6 +78,8 @@ init();
                         placeholder="Select"
                         style="width: 90px; background-color: #dddddd"
                         size="large"
+                        :select-when-unmatched="true"
+                        @select="searching"
                     >
                         <el-option label="Book" value="1" />
                         <el-option label="Tag" value="2" />

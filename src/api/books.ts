@@ -27,25 +27,28 @@ export interface Book {
     stock: number;
 }
 
-
 const prefix = "/storeApi/book/";
 
 export const getbyTag = (tag: string) => {
     return get(prefix + "tag/" + tag);
 };
 
-export const getBookById = (id:number) => {
-    return get(prefix + "id/" + id)
-}
+export const getBookById = (id: number) => {
+    return get(prefix + "id/" + id);
+};
 
-export const getRecommendBook = ()=>{
-    return get(prefix + "get/recommendBook")
-}
+export const getRecommendBook = () => {
+    return get(prefix + "get/recommendBook");
+};
 
-export const getNewBook = () =>{
-    return get(prefix + "get/newBook")
-}
+export const getNewBook = () => {
+    return get(prefix + "get/newBook");
+};
 
-export const getPopularBook = ()=>{
-    return get(prefix + "get/popularBook")
-}
+export const getPopularBook = () => {
+    return get(prefix + "get/popularBook");
+};
+
+export const searchBook = (search: string) => {
+    return get(prefix + "search/" + search);
+};
