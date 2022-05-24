@@ -10,6 +10,7 @@ export interface Order {
     state: number;
     orderTime: Date;
     expiredTime: Date;
+    addressId: number;
     total: number;
     singleOrders: SingleOrder[];
 }

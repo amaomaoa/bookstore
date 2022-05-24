@@ -7,6 +7,7 @@ import { computed, ref } from "vue";
 import { imgPath } from "@/api";
 
 import { ElMessage } from "element-plus";
+import router from "@/router";
 
 const allOrder = ref<Order[]>(<Order[]>[]);
 
@@ -41,11 +42,12 @@ function cancel(id: number) {
         })
         .finally(() => {
             getOrder();
+            // router.push({ name: "home", params: { refresh: 1 } });
         });
 }
 
 function init() {
-    document.title = "我的订单"
+    document.title = "我的订单";
     getOrder();
 }
 

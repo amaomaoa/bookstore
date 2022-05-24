@@ -1,18 +1,32 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { cancelById, getOrderById, payOrder, type Order } from "@/api/order";
 import { imgPath } from "@/api";
 import { ElMessage } from "element-plus";
+import router from "@/router";
+import { getAddressById, type Address } from "@/api/address";
+import { computedAsync } from "@vueuse/core";
 const route = useRoute();
 const orderId = ref(Number(route.params.id as string));
 
-const orderMsg = ref<Order>(<Order>{})
+const orderMsg = ref<Order>(<Order>{});
 
+const addressMsg = computedAsync(async () => {
+    return await getAddressById(orderMsg.value.addressId).then((res) => {
+        return res.data.data as Address;
+    });
+}, <Address>{});
+
+const orderTime = computed(() => {
+    return new Date(orderMsg.value.orderTime)
+        .toLocaleString()
+        .replace(/:\d{1,2}$/, " ");
+});
 
 async function getOrder() {
     const res = await getOrderById(orderId.value);
-    orderMsg.value = res.data.data
+    orderMsg.value = res.data.data;
 }
 function pay(id: number) {
     payOrder(<Order>{ id: id })
@@ -38,13 +52,14 @@ function cancel(id: number) {
             }
         })
         .finally(() => {
-            getOrder();
+            // router.push({ name: "myorder", params: { refresh: 1 } });
+            router.go(-2);
         });
 }
 
-function init(){
-    document.title = "订单"
-    getOrder()
+function init() {
+    document.title = "订单";
+    getOrder();
 }
 init();
 </script>
@@ -65,12 +80,18 @@ init();
                 <el-card
                     shadow="always"
                     v-for="(item, index) in orderMsg.singleOrders"
-                    style="margin: 20px;"
+                    style="margin: 20px"
                 >
-                    <el-image
-                        :src="imgPath + item.bookMsg.cover"
-                        style="width: 80px; height: 120px; margin-left: 40px"
-                    />
+                    <routerLink :to="'/book/' + item.bookMsg.id">
+                        <el-image
+                            :src="imgPath + item.bookMsg.cover"
+                            style="
+                                width: 80px;
+                                height: 120px;
+                                margin-left: 40px;
+                            "
+                        />
+                    </routerLink>
                     <div class="center-vertically">
                         <span>书名: {{ item.bookMsg.name }}</span>
                     </div>
@@ -87,6 +108,19 @@ init();
             </div>
             <div class="footer">
                 <el-divider />
+
+                <div style="display: inline-block">
+                    收货信息:
+                    <ul>
+                        <li>联系人:{{ addressMsg.consignee }}</li>
+                        <li>手机号码:{{ addressMsg.phone }}</li>
+                        <li>
+                            地址:{{ addressMsg.province }}{{ addressMsg.area
+                            }}{{ addressMsg.city }}{{ addressMsg.other }}
+                        </li>
+                    </ul>
+                    <!-- <li>下单时间:{{ orderTime }}</li> -->
+                </div>
                 <div class="operation">
                     <span style="margin-right: 20px"
                         >总价格:{{ orderMsg.total }}</span

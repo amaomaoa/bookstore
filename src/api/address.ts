@@ -17,6 +17,10 @@ export const getAddress = () => {
     return get(prefix + "get");
 };
 
+export const getAddressById = (id: number) => {
+    return get(prefix + "getById/" + id);
+};
+
 export const addAddress = (address: Address) => {
     return put(prefix + "add", address);
 };
