@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { cancelById, getOrderById, payOrder, type Order } from "@/api/order";
-import { computedAsync } from "@vueuse/core";
 import { imgPath } from "@/api";
 import { ElMessage } from "element-plus";
 const route = useRoute();
