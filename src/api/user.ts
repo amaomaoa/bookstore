@@ -22,6 +22,7 @@ const loginpath = prefix + "login";
 const checkloginpath = prefix + "checkLogin";
 const logoutpath = prefix + "logout";
 const registeredpath = prefix + "registered";
+const getUserMsgpath = prefix + "getUserMsg";
 
 export const login = (user: User) => {
     post(loginpath, user).then((res) => {
@@ -78,4 +79,13 @@ export const registered = (user: User) => {
             });
         }
     });
+};
+
+export const updateUser = (user: User) => {
+    return post(prefix + "updateUser", user);
+};
+
+export const getUserMsg = async () => {
+    const res = await get(getUserMsgpath);
+    return res.data.data;
 };

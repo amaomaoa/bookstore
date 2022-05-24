@@ -1,7 +1,6 @@
 import router from "@/router";
 import axios from "axios";
-import { ElMessage } from 'element-plus'
-
+import { ElMessage } from "element-plus";
 
 export interface page {
     countId: number | undefined;
@@ -40,7 +39,8 @@ axios.interceptors.request.use(
 
 export const swiperPath = "http://8.134.131.27:8001/swiper/get/";
 export const imgPath = "http://8.134.131.27:8001/book/get/";
-export const userPath = "http://8.134.131.27:8001/user/get/"
+export const userPath = "http://8.134.131.27:8001/user/get/";
+export const userUpload = "/picApi/user/upload";
 
 export const get = async (path: string, params?: any) => {
     if (params) {
