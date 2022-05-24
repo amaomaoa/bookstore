@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import SwpierPic from "@/components/SwpierPic.vue";
 import SwpierBook from "@/components/SwpierBook.vue";
-import { ref } from "vue";
 import { computedAsync } from "@vueuse/core";
 import {
     getPopularBook,
