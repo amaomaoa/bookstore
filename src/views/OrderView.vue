@@ -19,15 +19,34 @@ const addressMsg = computedAsync(async () => {
 }, <Address>{});
 
 const orderTime = computed(() => {
-    return new Date(orderMsg.value.orderTime)
-        .toLocaleString()
-        .replace(/:\d{1,2}$/, " ");
+    let date = new Date(orderMsg.value.orderTime);
+    if (date) {
+        return (
+            " " +
+            date.getFullYear() +
+            "-" +
+            (date.getMonth() + 1) +
+            "-" +
+            date.getDay() +
+            " " +
+            date.getHours() +
+            ":" +
+            date.getMinutes() +
+            ":" +
+            date.getSeconds()
+        );
+    }
+    return "";
 });
 
 async function getOrder() {
-    const res = await getOrderById(orderId.value);
-    orderMsg.value = res.data.data;
+    if (orderId.value) {
+        const res = await getOrderById(orderId.value);
+        orderMsg.value = res.data.data;
+        console.log(res.data.data.expiredTime);
+    }
 }
+
 function pay(id: number) {
     payOrder(<Order>{ id: id })
         .then((res) => {
@@ -119,7 +138,7 @@ init();
                             }}{{ addressMsg.city }}{{ addressMsg.other }}
                         </li>
                     </ul>
-                    <!-- <li>下单时间:{{ orderTime }}</li> -->
+                    下单时间: {{ orderTime }}
                 </div>
                 <div class="operation">
                     <span style="margin-right: 20px"
