@@ -28,12 +28,12 @@ export default defineConfig({
         port: 3001,
         proxy: {
             "/storeApi": {
-                target: "http://8.134.131.27:8000",
+                target: "http://127.0.0.1:8000",
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/storeApi/, ""),
             },
             "/picApi": {
-                target: "http://8.134.131.27:8001",
+                target: "http://127.0.0.1:8001",
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/picApi/, ""),
             },
