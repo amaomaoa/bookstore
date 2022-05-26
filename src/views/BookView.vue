@@ -86,6 +86,7 @@ function deleteCommenting(id: number) {
     deleteComment(id).then((res) => {
         if (res.data.code == 200) {
             ElMessage.success("删除成功");
+            getComent();
         } else {
             ElMessage.error(res.data.msg);
         }

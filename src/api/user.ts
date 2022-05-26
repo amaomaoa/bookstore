@@ -59,7 +59,8 @@ export const checkLogin = async () => {
 
 export const registered = (user: User) => {
     put(registeredpath, user).then((res) => {
-        if ((res.data.code = 200)) {
+        console.log(res.data.code);
+        if (res.data.code == 200) {
             ElNotification({
                 title: "注册成功",
                 message: res.data.msg,
