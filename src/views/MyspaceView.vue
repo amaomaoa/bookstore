@@ -68,8 +68,8 @@ init();
 
 <template>
     <div class="main">
-        <div v-if="userForm == null">用户未登录</div>
-        <el-form label-width="200px">
+        <div v-if="!userForm.avatar"></div>
+        <el-form v-else label-width="200px">
             <el-form-item label="头像" label-position="left">
                 <el-upload
                     class="avatar-uploader"

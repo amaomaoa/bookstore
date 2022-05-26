@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { login, type User } from "@/api/user";
+import { checkLogin, login, type User } from "@/api/user";
 import { userRules } from "@/api/user";
 import type { FormInstance } from "element-plus";
+import router from "@/router";
+import { useRoute } from "vue-router";
 
-
+const route = useRoute();
 const loginData = ref(<User>{
     name: "",
     password: "",
@@ -13,12 +15,19 @@ const prefix = "/storeApi/user/";
 const ruleFormRef = ref<FormInstance>(<FormInstance>{});
 
 const loginning = () => {
+    const redirect = route.query.redirect;
+    console.log(redirect);
     ruleFormRef.value.validate((valid) => {
-        login(loginData.value);
+        login(loginData.value, redirect as string);
     });
 };
 
 function init() {
+    checkLogin().then((res) => {
+        if (res) {
+            router.push("/");
+        }
+    });
     document.title = "登录";
 }
 init();

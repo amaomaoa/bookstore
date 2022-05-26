@@ -1,4 +1,5 @@
 import router from "@/router";
+import { useRoute } from "vue-router";
 import { ElNotification, ElMessage, type FormRules } from "element-plus";
 
 import { ref } from "vue";
@@ -24,7 +25,7 @@ const logoutpath = prefix + "logout";
 const registeredpath = prefix + "registered";
 const getUserMsgpath = prefix + "getUserMsg";
 
-export const login = (user: User) => {
+export const login = (user: User, redirect?: string) => {
     post(loginpath, user).then((res) => {
         if (res.data.code == 200) {
             ElNotification({
@@ -33,7 +34,12 @@ export const login = (user: User) => {
                 type: "success",
             });
             localStorage.setItem("token", res.data.data.token);
-            router.push({ name: "home", params: { refresh: 1 } });
+
+            if (redirect) {
+                router.push({ path: redirect, params: { refresh: 1 } });
+            } else {
+                router.push({ name: "home", params: { refresh: 1 } });
+            }
         } else {
             ElNotification({
                 title: "Error",

@@ -49,9 +49,7 @@ function init() {
 }
 
 watch(route, (newRoute) => {
-    if (newRoute.params.refresh) {
-        setusermsg();
-    }
+    setusermsg();
 });
 
 init();
