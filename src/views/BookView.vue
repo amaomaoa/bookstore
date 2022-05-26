@@ -73,7 +73,12 @@ function commenting() {
         score: userRate.value,
     };
     addComment(posts as unknown as Comment)
-        .then()
+        .then((res) => {
+            console.log(res);
+            if (res.data.code == 401) {
+                ElMessage.error("要登录后才能评论哦");
+            }
+        })
         .catch((e) => {
             console.log(e);
         })
