@@ -72,7 +72,7 @@ function cancel(id: number) {
         })
         .finally(() => {
             // router.push({ name: "myorder", params: { refresh: 1 } });
-            router.go(-2);
+            router.go(-1);
         });
 }
 
