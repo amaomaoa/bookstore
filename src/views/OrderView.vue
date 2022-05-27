@@ -27,7 +27,7 @@ const orderTime = computed(() => {
             "-" +
             (date.getMonth() + 1) +
             "-" +
-            date.getDay() +
+            date.getDate() +
             " " +
             date.getHours() +
             ":" +
